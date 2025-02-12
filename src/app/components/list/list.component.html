@@ -1,0 +1,8 @@
+<ng-container *ngIf="cars.length > 0; else elseTemplate">
+  <ul class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 my-10">
+    <app-card *ngFor="let item of cars; trackBy: trackById" [car]="item" />
+  </ul>
+</ng-container>
+<ng-template #elseTemplate>
+  <h2 class="text-4xl mt-16 font-medium">Jelenleg nincs szabad autó!</h2>
+</ng-template>
