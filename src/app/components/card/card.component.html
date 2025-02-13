@@ -19,7 +19,8 @@
           class="mr-2"
           >attach_money</mat-icon
         >
-        {{ car.price }} Ft/nap
+        {{ car.price | number : "1.0-0"
+        }}<span class="text-sm ml-2">Ft/nap</span>
       </p>
       <p class="flex items-center">
         <mat-icon
@@ -40,10 +41,16 @@
           maximum passengers"
           class="mr-2"
         />
-        {{ car.quantity }}
+        {{ car.quantity }} férőhely
       </p>
     </div>
 
-    <button mat-flat-button class="w-min mx-auto shadow-md">Foglalás</button>
+    <button
+      mat-flat-button
+      (click)="openDialog()"
+      class="w-min mx-auto shadow-md"
+    >
+      Foglalás
+    </button>
   </div>
 </li>

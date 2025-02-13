@@ -1,0 +1,117 @@
+<h2 mat-dialog-title class="text-center">Foglalási információk</h2>
+<mat-dialog-content>
+  <h3 class="mb-3 text-center text-lg">{{ data.brand }} - {{ data.model }}</h3>
+  <form
+    [formGroup]="reservationForm"
+    (ngSubmit)="onSubmit()"
+    class="flex flex-col gap-4"
+  >
+    <!-- Name -->
+    <mat-form-field>
+      <mat-label>Név</mat-label>
+      <input matInput formControlName="name" name="name" required type="text" />
+      <mat-error *ngIf="reservationForm.get('name')?.hasError('required')">
+        A név megadása kötelező
+      </mat-error>
+      <mat-error *ngIf="reservationForm.get('name')?.hasError('maxlength')">
+        A név nem lehet hosszabb, mint 25 karakter
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Email -->
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input
+        matInput
+        formControlName="email"
+        name="email"
+        required
+        type="email"
+      />
+      <mat-error *ngIf="reservationForm.get('email')?.hasError('required')">
+        Az email cím megadása kötelező
+      </mat-error>
+      <mat-error *ngIf="reservationForm.get('email')?.hasError('email')">
+        Hibás email formátum
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Address -->
+    <mat-form-field>
+      <mat-label>Számlázási cím</mat-label>
+      <input
+        matInput
+        formControlName="address"
+        name="address"
+        required
+        type="text"
+      />
+      <mat-error *ngIf="reservationForm.get('address')?.hasError('required')">
+        A cím megadása kötelező
+      </mat-error>
+      <mat-error *ngIf="reservationForm.get('address')?.hasError('maxlength')">
+        A cím nem lehet hosszabb, mint 100 karakter
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Phone -->
+    <mat-form-field>
+      <mat-label>Telefonszám</mat-label>
+      <input
+        matInput
+        formControlName="phone"
+        name="phone"
+        required
+        type="tel"
+      />
+      <mat-error *ngIf="reservationForm.get('phone')?.hasError('required')">
+        A telefonszám megadása kötelező
+      </mat-error>
+      <mat-error *ngIf="reservationForm.get('phone')?.hasError('pattern')">
+        Hibás telefonszám formátum
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Reservation interval -->
+    <mat-form-field>
+      <mat-label>Foglalás intervalluma</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input matStartDate formControlName="start" placeholder="Start date" />
+        <input matEndDate formControlName="end" placeholder="End date" />
+      </mat-date-range-input>
+      <mat-hint>MM/DD/YYYY - MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="picker"
+      ></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+
+      <mat-error
+        *ngIf="
+          reservationForm.get('start')?.hasError('required') ||
+          reservationForm.get('end')?.hasError('required')
+        "
+      >
+        A dátum megadása kötelező
+      </mat-error>
+
+      <mat-error
+        *ngIf="
+          reservationForm.get('start')?.hasError('dateNotBeforeToday') ||
+          reservationForm.get('end')?.hasError('required')
+        "
+      >
+        A dátum nem lehet a mai napnál korábban
+      </mat-error>
+    </mat-form-field>
+
+    <button
+      mat-flat-button
+      type="submit"
+      [disabled]="!reservationForm.valid"
+      class="w-min mx-auto shadow-md mt-8"
+    >
+      Foglalás
+    </button>
+  </form>
+</mat-dialog-content>
