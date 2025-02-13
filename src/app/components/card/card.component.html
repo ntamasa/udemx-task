@@ -1,10 +1,10 @@
 <li
-  class="h-[500px] w-[250px] rounded-xl shadow-lg overflow-hidden bg-slate-700 text-slate-200 grid grid-rows-2"
+  class="h-[500px] w-[300px] rounded-xl shadow-lg overflow-hidden bg-slate-700 text-slate-200 grid grid-rows-2"
 >
   <img
     src="{{ car.imageUrl }}"
     alt="{{ car.brand }} - {{ car.model }}"
-    class=""
+    class="w-full h-full object-cover"
   />
 
   <div class="grid items-center h-full px-4 py-6">
@@ -19,8 +19,14 @@
           class="mr-2"
           >attach_money</mat-icon
         >
-        {{ car.price | number : "1.0-0"
-        }}<span class="text-sm ml-2">Ft/nap</span>
+        <ng-container *ngIf="isAdmin; else elseTemplate1">
+          {{ reservation?.total | number : "1.0-0"
+          }}<span class="text-sm ml-2">Ft</span>
+        </ng-container>
+        <ng-template #elseTemplate1>
+          {{ car.price | number : "1.0-0"
+          }}<span class="text-sm ml-2">Ft/nap</span>
+        </ng-template>
       </p>
       <p class="flex items-center">
         <mat-icon
@@ -30,7 +36,13 @@
           class="mr-2"
           >calendar_today</mat-icon
         >
-        {{ car.year }}
+        <ng-container *ngIf="isAdmin; else elseTemplate2">
+          {{ reservation?.start_date | date : "yyyy-MM-dd" }} -
+          {{ reservation?.end_date | date : "yyyy-MM-dd" }}
+        </ng-container>
+        <ng-template #elseTemplate2>
+          {{ car.year }}
+        </ng-template>
       </p>
 
       <p class="flex items-center">
@@ -41,16 +53,29 @@
           maximum passengers"
           class="mr-2"
         />
-        {{ car.quantity }} férőhely
+        <ng-container *ngIf="isAdmin; else elseTemplate3">
+          {{ reservation?.user_email }}
+        </ng-container>
+        <ng-template #elseTemplate3> {{ car.quantity }} férőhely </ng-template>
       </p>
     </div>
 
-    <button
-      mat-flat-button
-      (click)="openDialog()"
-      class="w-min mx-auto shadow-md"
-    >
-      Foglalás
-    </button>
+    <div class="flex justify-between">
+      <button
+        mat-flat-button
+        *ngIf="isAdmin"
+        (click)="openModifyDialog()"
+        class="w-min mx-auto shadow-md"
+      >
+        Módosítás
+      </button>
+      <button
+        mat-flat-button
+        (click)="isAdmin ? onDelete() : openDialog()"
+        class="w-min mx-auto shadow-md"
+      >
+        {{ isAdmin ? "Törlés" : "Foglalás" }}
+      </button>
+    </div>
   </div>
 </li>

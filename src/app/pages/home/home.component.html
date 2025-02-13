@@ -1,6 +1,13 @@
 <main class="flex flex-col items-center h-dvh">
   <h1>HOME</h1>
 
+  <a
+    href="#"
+    class="btn btn-primary cursor-pointer"
+    (click)="$event.preventDefault(); goToAdmin()"
+    >Go to Admin</a
+  >
+
   <mat-form-field>
     <mat-label>Enter a date range</mat-label>
     <mat-date-range-input [formGroup]="range" [rangePicker]="picker">

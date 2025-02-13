@@ -9,6 +9,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { ListComponent } from '../../components/list/list.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -29,4 +30,10 @@ export class HomeComponent {
     start: new FormControl<Date | null>(null),
     end: new FormControl<Date | null>(null),
   });
+
+  constructor(private router: Router) {}
+
+  goToAdmin(): void {
+    this.router.navigate(['/admin']);
+  }
 }

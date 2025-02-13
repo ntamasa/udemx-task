@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import {
   MAT_DIALOG_DATA,
   MatDialogContent,
+  MatDialogModule,
   MatDialogTitle,
 } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
@@ -26,6 +27,7 @@ import { ReservationService } from '../../services/reservationService';
   imports: [
     MatDialogTitle,
     MatDialogContent,
+    MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
     FormsModule,

@@ -1,5 +1,5 @@
 import { Injectable, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, Subject } from 'rxjs';
 import { faker } from '@faker-js/faker';
 import { Car } from '../model/car';
 import { Reservation } from '../model/reservation';
@@ -47,24 +47,27 @@ function getRandomElement<T>(array: T[]): T {
   providedIn: 'root',
 })
 export class ReservationService implements OnInit {
-  cars: Subject<Car[]> = new Subject<Car[]>();
+  cars: BehaviorSubject<Car[]> = new BehaviorSubject<Car[]>(mock_cars);
   $data = this.cars.asObservable();
 
-  reservations: Subject<Reservation[]> = new Subject<Reservation[]>();
+  reservations: BehaviorSubject<Reservation[]> = new BehaviorSubject<
+    Reservation[]
+  >(mock_reservations);
   $reservations = this.reservations.asObservable();
 
-  constructor() {
+  $combinedData = combineLatest([this.$data, this.$reservations]).pipe(
+    map(([cars, reservations]) => {
+      return {
+        cars,
+        reservations,
+      };
+    })
+  );
+
+  constructor() {}
+
+  ngOnInit(): void {
     this.cars.next(mock_cars);
-    this.reservations.next([] as Reservation[]);
-  }
-
-  ngOnInit(): void {}
-
-  loadCars(): void {
-    this.cars.next(mock_cars);
-  }
-
-  loadReservations(): void {
     this.reservations.next(mock_reservations);
   }
 
@@ -90,11 +93,21 @@ export class ReservationService implements OnInit {
       end_date: reservationData.end.toISOString(),
       total: days * this.getCarById(carId)?.price!,
     };
-    mock_reservations.push(reservation);
-    this.reservations.next(mock_reservations);
+    const newReservations = [...this.reservations.getValue(), reservation];
+    this.reservations.next(newReservations);
   }
 
   getCarById(id: string): Car | undefined {
-    return mock_cars.find((car) => car.id === id);
+    return this.cars.getValue().find((car) => car.id === id);
+  }
+
+  getReservedCars(): Car[] {
+    return this.cars
+      .getValue()
+      .filter((car) =>
+        this.reservations
+          .getValue()
+          .some((reservation) => reservation.car_id === car.id)
+      );
   }
 }
