@@ -1,4 +1,4 @@
-<main class="flex flex-col items-center h-dvh">
+<main class="flex flex-col items-center min-h-dvh">
   <h1>HOME</h1>
 
   <a
@@ -14,12 +14,9 @@
       <input matStartDate formControlName="start" placeholder="Start date" />
       <input matEndDate formControlName="end" placeholder="End date" />
     </mat-date-range-input>
-    <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+    <mat-hint>MM/DD/YYYY - MM/DD/YYYY</mat-hint>
     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-date-range-picker #picker></mat-date-range-picker>
   </mat-form-field>
-
-  <!-- <p>Selected range: {{ range.value | json }}</p> -->
-
   <app-list />
 </main>

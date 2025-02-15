@@ -10,6 +10,8 @@ import {
 } from '@angular/forms';
 import { ListComponent } from '../../components/list/list.component';
 import { Router } from '@angular/router';
+import { JsonPipe } from '@angular/common';
+import { ReservationService } from '../../services/reservationService';
 
 @Component({
   selector: 'app-home',
@@ -19,6 +21,7 @@ import { Router } from '@angular/router';
     FormsModule,
     ReactiveFormsModule,
     ListComponent,
+    JsonPipe,
   ],
   providers: [provideNativeDateAdapter()],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -31,7 +34,14 @@ export class HomeComponent {
     end: new FormControl<Date | null>(null),
   });
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private reservationService: ReservationService
+  ) {
+    this.range.valueChanges.subscribe(({ start, end }) => {
+      if (start && end) this.reservationService.filterCarsByDate(start, end);
+    });
+  }
 
   goToAdmin(): void {
     this.router.navigate(['/admin']);

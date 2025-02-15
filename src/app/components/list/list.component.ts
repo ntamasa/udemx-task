@@ -23,9 +23,9 @@ export class ListComponent implements OnInit {
 
   ngOnInit(): void {
     this.sub = this.reservationService.$combinedData.subscribe(
-      ({ cars, reservations }) => {
+      ({ cars, filteredCars, reservations }) => {
         this.reservations = reservations;
-        this.cars = cars;
+        this.cars = filteredCars;
         this.reservations.forEach((res) => {});
       }
     );
@@ -39,7 +39,7 @@ export class ListComponent implements OnInit {
     return this.cars.find((car) => car.id === resId)!;
   }
 
-  getGridClasses() {
+  getGridClasses(isAdmin: boolean = false): string {
     const classes = [
       'grid',
       'grid-cols-1',
@@ -48,12 +48,12 @@ export class ListComponent implements OnInit {
       'mx-5',
       'justify-items-center',
     ];
-    if (this.reservations.length > 3) {
+    if (this.reservations.length > 3 || (!isAdmin && this.cars.length > 3)) {
       classes.push('lg:grid-cols-3');
     } else {
       classes.push(`lg:grid-cols-${this.reservations.length}`);
     }
-    if (this.reservations.length > 2) {
+    if (this.reservations.length > 2 || (!isAdmin && this.cars.length > 2)) {
       classes.push('md:grid-cols-2');
       classes.push('sm:grid-cols-2');
     } else {

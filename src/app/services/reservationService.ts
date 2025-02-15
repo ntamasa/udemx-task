@@ -6,7 +6,7 @@ import { Reservation } from '../model/reservation';
 
 // generate mock data using fakerjs
 const mock_cars: Car[] = Array.from(
-  { length: 100 },
+  { length: 5 },
   () =>
     ({
       id: faker.string.uuid(),
@@ -28,12 +28,8 @@ const mock_reservations: Reservation[] = Array.from(
       id: faker.string.uuid(),
       car_id: getRandomElement(mock_cars).id,
       user_email: faker.internet.email(),
-      start_date: new Date(
-        new Date().setDate(new Date().getDate() + 6)
-      ).toISOString(), // 6 days from today
-      end_date: new Date(
-        new Date().setDate(new Date().getDate() + 10)
-      ).toISOString(), // 10 days from today
+      start_date: new Date(new Date().setDate(new Date().getDate() + 6)), // 6 days from today
+      end_date: new Date(new Date().setDate(new Date().getDate() + 10)), // 10 days from today
       total: 100000,
     } as Reservation)
 );
@@ -50,15 +46,23 @@ export class ReservationService implements OnInit {
   cars: BehaviorSubject<Car[]> = new BehaviorSubject<Car[]>(mock_cars);
   $data = this.cars.asObservable();
 
+  filteredCars: BehaviorSubject<Car[]> = new BehaviorSubject<Car[]>(mock_cars);
+  $filteredData = this.filteredCars.asObservable();
+
   reservations: BehaviorSubject<Reservation[]> = new BehaviorSubject<
     Reservation[]
   >(mock_reservations);
   $reservations = this.reservations.asObservable();
 
-  $combinedData = combineLatest([this.$data, this.$reservations]).pipe(
-    map(([cars, reservations]) => {
+  $combinedData = combineLatest([
+    this.$data,
+    this.$filteredData,
+    this.$reservations,
+  ]).pipe(
+    map(([cars, filteredCars, reservations]) => {
       return {
         cars,
+        filteredCars,
         reservations,
       };
     })
@@ -89,12 +93,36 @@ export class ReservationService implements OnInit {
       id: faker.string.uuid(),
       car_id: carId,
       user_email: reservationData.email,
-      start_date: reservationData.start.toISOString(),
-      end_date: reservationData.end.toISOString(),
+      start_date: reservationData.start,
+      end_date: reservationData.end,
       total: days * this.getCarById(carId)?.price!,
     };
     const newReservations = [...this.reservations.getValue(), reservation];
     this.reservations.next(newReservations);
+  }
+
+  filterCarsByDate(start: Date, end: Date): void {
+    const reservationsMatchingDate = this.reservations
+      .getValue()
+      .filter((reservation) => {
+        const reservationStartDate = reservation.start_date;
+        const reservationEndDate = reservation.end_date;
+        return !(
+          (start < reservationStartDate || start > reservationEndDate) &&
+          (end < reservationStartDate || end > reservationEndDate)
+        );
+      });
+    if (reservationsMatchingDate.length === 0) {
+      this.filteredCars.next(this.cars.getValue());
+      return;
+    }
+    const filteredCars = this.cars.getValue().filter((car) => {
+      return !reservationsMatchingDate.some(
+        (reservation) => reservation.car_id === car.id
+      );
+    });
+
+    this.filteredCars.next(filteredCars);
   }
 
   getCarById(id: string): Car | undefined {

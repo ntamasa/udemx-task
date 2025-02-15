@@ -1,5 +1,5 @@
 <ng-container *ngIf="cars.length > 0; else elseTemplate">
-  <ul [ngClass]="getGridClasses()">
+  <ul [ngClass]="getGridClasses(isAdmin)">
     <ng-container *ngIf="isAdmin; else elseTemplate">
       <app-card
         *ngFor="let item of reservations; trackBy: trackResById"
