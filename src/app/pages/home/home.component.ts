@@ -9,19 +9,22 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { ListComponent } from '../../components/list/list.component';
-import { Router } from '@angular/router';
-import { JsonPipe } from '@angular/common';
 import { ReservationService } from '../../services/reservationService';
+import { HeroComponent } from '../../components/hero/hero.component';
+import { ErrMessageComponent } from '../../components/err-message/err-message.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-home',
   imports: [
+    CommonModule,
     MatFormFieldModule,
     MatDatepickerModule,
     FormsModule,
     ReactiveFormsModule,
     ListComponent,
-    JsonPipe,
+    HeroComponent,
+    ErrMessageComponent,
   ],
   providers: [provideNativeDateAdapter()],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,16 +37,20 @@ export class HomeComponent {
     end: new FormControl<Date | null>(null),
   });
 
-  constructor(
-    private router: Router,
-    private reservationService: ReservationService
-  ) {
-    this.range.valueChanges.subscribe(({ start, end }) => {
-      if (start && end) this.reservationService.filterCarsByDate(start, end);
-    });
-  }
+  currentDate: Date = new Date(new Date().setHours(0, 0, 0, 0));
+  errMessage: string = '';
 
-  goToAdmin(): void {
-    this.router.navigate(['/admin']);
+  constructor(private reservationService: ReservationService) {
+    this.range.valueChanges.subscribe(({ start, end }) => {
+      if (!start || !end) return;
+
+      if (start < this.currentDate || end < this.currentDate) {
+        this.errMessage = 'Please select a valid date! ❌';
+        return;
+      }
+
+      this.reservationService.filterCarsByDate(start, end);
+      this.errMessage = '';
+    });
   }
 }

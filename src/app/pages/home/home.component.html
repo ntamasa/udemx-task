@@ -1,22 +1,40 @@
-<main class="flex flex-col items-center min-h-dvh">
-  <h1>HOME</h1>
+<div class="flex flex-col items-center min-h-dvh">
+  <app-hero>
+    <div
+      class="w-2/3 h-5/6 bg-slate-100 rounded-2xl opacity-95 p-10 flex justify-between items-center"
+    >
+      <div class="flex flex-col gap-4">
+        <h1 class="text-6xl font-medium">Car Rental</h1>
+        <p class="indent-2 opacity-80 font-medium">
+          Select your rental dates. Ensure accuracy to avoid issues.
+        </p>
+      </div>
 
-  <a
-    href="#"
-    class="btn btn-primary cursor-pointer"
-    (click)="$event.preventDefault(); goToAdmin()"
-    >Go to Admin</a
-  >
+      <div>
+        <mat-form-field>
+          <mat-label>Enter a date range</mat-label>
+          <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+            <input
+              matStartDate
+              formControlName="start"
+              placeholder="Start date"
+            />
+            <input matEndDate formControlName="end" placeholder="End date" />
+          </mat-date-range-input>
+          <mat-hint>MM/DD/YYYY - MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Enter a date range</mat-label>
-    <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
-      <input matStartDate formControlName="start" placeholder="Start date" />
-      <input matEndDate formControlName="end" placeholder="End date" />
-    </mat-date-range-input>
-    <mat-hint>MM/DD/YYYY - MM/DD/YYYY</mat-hint>
-    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-date-range-picker #picker></mat-date-range-picker>
-  </mat-form-field>
+        <app-err-message *ngIf="errMessage">
+          {{ errMessage }}
+        </app-err-message>
+      </div>
+    </div>
+  </app-hero>
+
   <app-list />
-</main>
+</div>
