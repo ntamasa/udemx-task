@@ -1,3 +1,4 @@
+@use "@angular/material" as mat;
 @import "tailwindcss";
 
 /* You can add global styles to this file, and also import other style files */
@@ -8,4 +9,16 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+// Customize the entire app. Change :root to your selector if you want to scope the styles.
+:root {
+  @include mat.toolbar-overrides(
+    (
+      container-background-color: oklch(0.372 0.044 257.287),
+      // slate-700
+      container-text-color: oklch(0.929 0.013 255.508),
+      // slate-200
+    )
+  );
 }
