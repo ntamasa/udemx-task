@@ -1,0 +1,15 @@
+<nav>
+  <mat-toolbar>
+    <span>Car Rental</span>
+    <span class="flex-1"></span>
+
+    <button mat-flat-button>
+      <a
+        href="#"
+        class="btn btn-primary cursor-pointer"
+        (click)="$event.preventDefault(); changePage()"
+        >Go to {{ !getCurrentPath() ? "Admin" : "Home" }}</a
+      >
+    </button>
+  </mat-toolbar>
+</nav>
