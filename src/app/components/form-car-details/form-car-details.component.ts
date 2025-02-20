@@ -9,6 +9,7 @@ import {
 import { CommonModule } from '@angular/common';
 
 import {
+  MAT_DIALOG_DATA,
   MatDialogContent,
   MatDialogModule,
   MatDialogTitle,
@@ -19,10 +20,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatButtonModule } from '@angular/material/button';
 import { ReservationService } from '../../services/reservationService';
-import { Car } from '../../model/car';
 
 @Component({
-  selector: 'app-create-car',
+  selector: 'app-form-car-details',
   imports: [
     MatDialogTitle,
     MatDialogContent,
@@ -35,14 +35,11 @@ import { Car } from '../../model/car';
     MatButtonModule,
     CommonModule,
   ],
-  templateUrl: './create-car.component.html',
-  styleUrl: './create-car.component.scss',
+  templateUrl: './form-car-details.component.html',
+  styleUrl: './form-car-details.component.scss',
 })
-export class CreateCarComponent implements OnInit {
-  constructor(private reservationService: ReservationService) {}
-
-  ngOnInit(): void {}
-
+export class FormCarDetailsComponent implements OnInit {
+  data = inject(MAT_DIALOG_DATA);
   newCarForm = new FormGroup({
     brand: new FormControl('', [Validators.required, Validators.maxLength(25)]),
     model: new FormControl('', [Validators.required, Validators.maxLength(25)]),
@@ -59,13 +56,46 @@ export class CreateCarComponent implements OnInit {
     imageUrl: new FormControl('', [Validators.maxLength(250)]),
   });
 
-  onSubmit(): void {
+  constructor(private reservationService: ReservationService) {}
+
+  ngOnInit(): void {
+    if (this.data?.isEditing) {
+      const { brand, model, price, year, quantity, imageUrl } = this.data.car;
+      this.newCarForm.setValue({
+        brand,
+        model,
+        price,
+        year,
+        passengers: quantity,
+        imageUrl,
+      });
+    }
+  }
+
+  onSubmitNew(): void {
     if (this.newCarForm.invalid) return;
 
     const { brand, model, price, year, passengers, imageUrl } =
       this.newCarForm.value;
 
     this.reservationService.createCar(
+      brand!,
+      model!,
+      price!,
+      year!,
+      passengers!,
+      imageUrl
+    );
+  }
+
+  onSubmitEdit(): void {
+    if (this.newCarForm.invalid) return;
+
+    const { brand, model, price, year, passengers, imageUrl } =
+      this.newCarForm.value;
+
+    this.reservationService.editCar(
+      this.data.car.id,
       brand!,
       model!,
       price!,

@@ -162,6 +162,50 @@ export class ReservationService implements OnInit {
     this.filteredCars.next(newCars);
   }
 
+  editCar(
+    id: string,
+    brand: string,
+    model: string,
+    price: number,
+    year: number,
+    passengers: number,
+    image: string | null | undefined
+  ): void {
+    const imageUrl = image || faker.image.avatar();
+
+    // Create new car object
+    const newCar = {
+      id,
+      brand,
+      model,
+      price,
+      year,
+      imageUrl,
+      quantity: passengers,
+    } as Car;
+
+    const newCars = this.cars
+      .getValue()
+      .map((car) => (car.id === id ? newCar : car));
+    this.cars.next(newCars);
+    this.filteredCars.next(newCars);
+  }
+
+  deleteCar(id: string): void {
+    // get all reservations for that car
+    const newReservations = this.reservations
+      .getValue()
+      .filter((reservation) => reservation.car_id !== id);
+
+    // remove car from cars list
+    const newCars = this.cars.getValue().filter((car) => car.id !== id);
+
+    // updates
+    this.cars.next(newCars);
+    this.filteredCars.next(newCars);
+    this.reservations.next(newReservations);
+  }
+
   getCarById(id: string): Car | undefined {
     return this.cars.getValue().find((car) => car.id === id);
   }

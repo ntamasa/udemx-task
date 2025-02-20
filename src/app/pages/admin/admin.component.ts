@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { AdminService } from '../../services/adminService';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { CreateCarComponent } from '../../components/create-car/create-car.component';
+import { FormCarDetailsComponent } from '../../components/form-car-details/form-car-details.component';
 import { MatTabsModule } from '@angular/material/tabs';
 
 @Component({
@@ -43,7 +43,7 @@ export class AdminComponent implements OnInit {
   }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(CreateCarComponent);
+    const dialogRef = this.dialog.open(FormCarDetailsComponent);
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);

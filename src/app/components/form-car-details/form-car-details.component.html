@@ -1,8 +1,14 @@
 <mat-dialog-content>
-  <h2 mat-dialog-title class="text-center">Új autó hozzáadása!</h2>
+  <h2 mat-dialog-title class="text-center">
+    {{
+      this.data?.isEditing
+        ? this.data.car.brand + " - " + this.data.car.model + " módosítása"
+        : "Új autó hozzáadása"
+    }}!
+  </h2>
   <form
     [formGroup]="newCarForm"
-    (ngSubmit)="onSubmit()"
+    (ngSubmit)="this.data?.isEditing ? onSubmitEdit() : onSubmitNew()"
     class="flex flex-col gap-4"
   >
     <!-- Brand -->
@@ -127,7 +133,7 @@
       [disabled]="!newCarForm.valid"
       class="w-min mx-auto shadow-md"
     >
-      Hozzáadás
+      {{ this.data?.isEditing ? "Módosítás" : "Hozzáadás" }}
     </button>
   </form>
 </mat-dialog-content>
