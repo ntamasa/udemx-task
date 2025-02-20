@@ -1,17 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ListComponent } from '../../components/list/list.component';
 import { Router } from '@angular/router';
 import { AdminLoginComponent } from '../../components/admin-login/admin-login.component';
 import { CommonModule } from '@angular/common';
 import { AdminService } from '../../services/adminService';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { CreateCarComponent } from '../../components/create-car/create-car.component';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-admin',
-  imports: [ListComponent, AdminLoginComponent, CommonModule],
+  imports: [
+    ListComponent,
+    AdminLoginComponent,
+    CommonModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatTabsModule,
+  ],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss',
 })
 export class AdminComponent implements OnInit {
+  readonly dialog = inject(MatDialog);
+
   isLoggedIn: boolean = false;
   email: string | null = localStorage.getItem('user');
 
@@ -27,5 +40,13 @@ export class AdminComponent implements OnInit {
   checkLoginStatus(isLoggedIn: boolean): void {
     this.isLoggedIn = isLoggedIn;
     this.email = localStorage.getItem('user');
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(CreateCarComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 }

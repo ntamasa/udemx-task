@@ -32,6 +32,10 @@
         <mat-error *ngIf="errMessage">
           {{ errMessage }}
         </mat-error>
+
+        <div class="text-right">
+          <button mat-flat-button class="mt-5" (click)="resetFilter()">Törlés</button>
+        </div>
       </div>
     </div>
   </app-hero>

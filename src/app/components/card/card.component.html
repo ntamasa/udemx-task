@@ -19,8 +19,8 @@
           class="mr-2"
           >attach_money</mat-icon
         >
-        <ng-container *ngIf="isAdmin; else elseTemplate1">
-          {{ reservation?.total | number : "1.0-0"
+        <ng-container *ngIf="isAdmin && reservation; else elseTemplate1">
+          {{ reservation.total | number : "1.0-0"
           }}<span class="text-sm ml-2">Ft</span>
         </ng-container>
         <ng-template #elseTemplate1>
@@ -36,9 +36,9 @@
           class="mr-2"
           >calendar_today</mat-icon
         >
-        <ng-container *ngIf="isAdmin; else elseTemplate2">
-          {{ reservation?.start_date | date : "yyyy-MM-dd" }} -
-          {{ reservation?.end_date | date : "yyyy-MM-dd" }}
+        <ng-container *ngIf="isAdmin && reservation; else elseTemplate2">
+          {{ reservation.start_date | date : "yyyy-MM-dd" }} -
+          {{ reservation.end_date | date : "yyyy-MM-dd" }}
         </ng-container>
         <ng-template #elseTemplate2>
           {{ car.year }}
@@ -53,8 +53,8 @@
           maximum passengers"
           class="mr-2"
         />
-        <ng-container *ngIf="isAdmin; else elseTemplate3">
-          {{ reservation?.user_email }}
+        <ng-container *ngIf="isAdmin && reservation; else elseTemplate3">
+          {{ reservation.user_email }}
         </ng-container>
         <ng-template #elseTemplate3> {{ car.quantity }} férőhely </ng-template>
       </p>

@@ -1,0 +1,133 @@
+<mat-dialog-content>
+  <h2 mat-dialog-title class="text-center">Új autó hozzáadása!</h2>
+  <form
+    [formGroup]="newCarForm"
+    (ngSubmit)="onSubmit()"
+    class="flex flex-col gap-4"
+  >
+    <!-- Brand -->
+    <mat-form-field>
+      <mat-label>Gyátró</mat-label>
+      <input
+        matInput
+        formControlName="brand"
+        name="brand"
+        required
+        type="text"
+      />
+      <mat-error *ngIf="newCarForm.get('brand')?.hasError('required')">
+        A gyártó megadása kötelező!
+      </mat-error>
+      <mat-error *ngIf="newCarForm.get('brand')?.hasError('maxlength')">
+        A gyártó nem lehet hosszabb, mint 25 karakter!
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Model -->
+    <mat-form-field>
+      <mat-label>Modell</mat-label>
+      <input
+        matInput
+        formControlName="model"
+        name="model"
+        required
+        type="text"
+      />
+      <mat-error *ngIf="newCarForm.get('model')?.hasError('required')">
+        A modell megadása kötelező!
+      </mat-error>
+      <mat-error *ngIf="newCarForm.get('model')?.hasError('maxlength')">
+        A modell nem lehet hosszabb, mint 25 karakter!
+      </mat-error>
+    </mat-form-field>
+
+    <div class="flex justify-between gap-4">
+      <!-- Price -->
+      <mat-form-field>
+        <mat-label>Ár/nap</mat-label>
+        <input
+          matInput
+          formControlName="price"
+          name="price"
+          required
+          type="number"
+          min="0"
+        />
+        <mat-error *ngIf="newCarForm.get('price')?.hasError('required')">
+          Az ár megadása kötelező!
+        </mat-error>
+        <mat-error *ngIf="newCarForm.get('price')?.hasError('min')">
+          Az ár nem lehet negatív!
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Year -->
+      <mat-form-field>
+        <mat-label>Gyártási év</mat-label>
+        <input
+          matInput
+          formControlName="year"
+          name="year"
+          required
+          type="number"
+          max="2025"
+          min="1900"
+        />
+        <mat-error *ngIf="newCarForm.get('year')?.hasError('required')">
+          A gyártási év megadása kötelező!
+        </mat-error>
+        <mat-error *ngIf="newCarForm.get('year')?.hasError('pattern')">
+          A gyártási év 1900 és 2025 között lehet!
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Number of passengers -->
+      <mat-form-field>
+        <mat-label>Férőhely</mat-label>
+        <input
+          matInput
+          formControlName="passengers"
+          name="passengers"
+          required
+          type="number"
+          min="1"
+          max="7"
+        />
+        <mat-error *ngIf="newCarForm.get('passengers')?.hasError('required')">
+          A férőhely megadása kötelező!
+        </mat-error>
+        <mat-error *ngIf="newCarForm.get('passengers')?.hasError('min')">
+          A férőhelynek legalább 1-nek kell lennie!
+        </mat-error>
+        <mat-error *ngIf="newCarForm.get('passengers')?.hasError('max')">
+          A férőhely lefeljebb 7 lehet!
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Image -->
+    <mat-form-field>
+      <mat-label>Kép URL</mat-label>
+      <input
+        matInput
+        formControlName="imageUrl"
+        name="imageUrl"
+        type="text"
+        maxlength="250"
+      />
+      <mat-error *ngIf="newCarForm.get('imageUrl')?.hasError('maxlength')">
+        A kép URL nem lehet hosszabb, mint 250 karakter!
+      </mat-error>
+    </mat-form-field>
+
+    <button
+      mat-flat-button
+      [mat-dialog-close]="true"
+      type="submit"
+      [disabled]="!newCarForm.valid"
+      class="w-min mx-auto shadow-md"
+    >
+      Hozzáadás
+    </button>
+  </form>
+</mat-dialog-content>

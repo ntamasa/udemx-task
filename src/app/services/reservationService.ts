@@ -21,17 +21,21 @@ const mock_cars: Car[] = Array.from(
     } as Car)
 );
 
-const mock_reservations: Reservation[] = Array.from(
-  { length: 2 },
-  () =>
-    ({
+const mock_reservations: Reservation[] = Array.from({ length: 2 }, () =>
+  (function () {
+    const startDate = new Date(new Date().setDate(new Date().getDate() + 6));
+    startDate.setHours(0, 0, 0, 0);
+    const endDate = new Date(new Date().setDate(new Date().getDate() + 10));
+    endDate.setHours(0, 0, 0, 0);
+    return {
       id: faker.string.uuid(),
       car_id: getRandomElement(mock_cars).id,
       user_email: faker.internet.email(),
-      start_date: new Date(new Date().setDate(new Date().getDate() + 6)), // 6 days from today
-      end_date: new Date(new Date().setDate(new Date().getDate() + 10)), // 10 days from today
+      start_date: startDate,
+      end_date: endDate,
       total: 100000,
-    } as Reservation)
+    } as Reservation;
+  })()
 );
 
 function getRandomElement<T>(array: T[]): T {
@@ -72,6 +76,7 @@ export class ReservationService implements OnInit {
 
   ngOnInit(): void {
     this.cars.next(mock_cars);
+    this.filteredCars.next(this.cars.getValue());
     this.reservations.next(mock_reservations);
   }
 
@@ -107,9 +112,12 @@ export class ReservationService implements OnInit {
       .filter((reservation) => {
         const reservationStartDate = reservation.start_date;
         const reservationEndDate = reservation.end_date;
-        return !(
-          (start < reservationStartDate || start > reservationEndDate) &&
-          (end < reservationStartDate || end > reservationEndDate)
+
+        return (
+          (end.getTime() >= reservationStartDate.getTime() &&
+            end.getTime() <= reservationEndDate.getTime()) ||
+          (start.getTime() >= reservationStartDate.getTime() &&
+            start.getTime() <= reservationEndDate.getTime())
         );
       });
     if (reservationsMatchingDate.length === 0) {
@@ -123,6 +131,35 @@ export class ReservationService implements OnInit {
     });
 
     this.filteredCars.next(filteredCars);
+  }
+
+  resetFilter(): void {
+    this.filteredCars.next(this.cars.getValue());
+  }
+
+  createCar(
+    brand: string,
+    model: string,
+    price: number,
+    year: number,
+    passengers: number,
+    image: string | null | undefined
+  ): void {
+    const imageUrl = image || faker.image.avatar();
+
+    const newCar = {
+      id: faker.string.uuid(),
+      brand,
+      model,
+      price,
+      year,
+      imageUrl,
+      quantity: passengers,
+    } as Car;
+    const newCars = [...this.cars.getValue(), newCar];
+    console.log(newCars);
+    this.cars.next(newCars);
+    this.filteredCars.next(newCars);
   }
 
   getCarById(id: string): Car | undefined {

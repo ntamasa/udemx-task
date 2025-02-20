@@ -14,6 +14,7 @@ import { Reservation } from '../../model/reservation';
 })
 export class ListComponent implements OnInit {
   @Input() isAdmin: boolean = false; // if true, show reservations for admin page
+  @Input() isReservations: boolean = false; // if true, show reservations for admin page, else show cars
 
   cars: Car[] = [];
   reservations: Reservation[] = [];
@@ -25,8 +26,7 @@ export class ListComponent implements OnInit {
     this.sub = this.reservationService.$combinedData.subscribe(
       ({ cars, filteredCars, reservations }) => {
         this.reservations = reservations;
-        this.cars = filteredCars;
-        this.reservations.forEach((res) => {});
+        this.cars = this.isAdmin ? cars : filteredCars;
       }
     );
   }

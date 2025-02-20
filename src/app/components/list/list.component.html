@@ -1,6 +1,7 @@
 <ng-container *ngIf="cars.length > 0; else elseTemplate">
   <ul [ngClass]="getGridClasses(isAdmin)">
-    <ng-container *ngIf="isAdmin; else elseTemplate">
+    @if (isAdmin) {
+    <ng-container *ngIf="isReservations; else elseTemplate">
       <app-card
         *ngFor="let item of reservations; trackBy: trackResById"
         [car]="getCarByReservation(item.car_id)"
@@ -9,8 +10,16 @@
       />
     </ng-container>
     <ng-template #elseTemplate>
-      <app-card *ngFor="let item of cars; trackBy: trackById" [car]="item" />
+      <app-card
+        *ngFor="let item of cars; trackBy: trackById"
+        [car]="item"
+        [isAdmin]="true"
+      />
     </ng-template>
+    } @else {
+    <app-card *ngFor="let item of cars; trackBy: trackById" [car]="item" />
+
+    }
   </ul>
 </ng-container>
 <ng-template #elseTemplate>

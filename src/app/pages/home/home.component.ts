@@ -12,6 +12,7 @@ import { ListComponent } from '../../components/list/list.component';
 import { ReservationService } from '../../services/reservationService';
 import { HeroComponent } from '../../components/hero/hero.component';
 import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-home',
@@ -23,6 +24,7 @@ import { CommonModule } from '@angular/common';
     ReactiveFormsModule,
     ListComponent,
     HeroComponent,
+    MatButtonModule,
   ],
   providers: [provideNativeDateAdapter()],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -50,5 +52,10 @@ export class HomeComponent {
       this.reservationService.filterCarsByDate(start, end);
       this.errMessage = '';
     });
+  }
+
+  resetFilter(): void {
+    this.reservationService.resetFilter();
+    this.range.setValue({ start: null, end: null });
   }
 }
