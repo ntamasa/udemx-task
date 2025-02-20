@@ -63,7 +63,7 @@
     <div class="flex justify-between">
       <button
         mat-flat-button
-        *ngIf="isAdmin"
+        *ngIf="isAdmin && !reservation"
         (click)="openModifyDialog()"
         class="w-min mx-auto shadow-md"
       >

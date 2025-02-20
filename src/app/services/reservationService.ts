@@ -106,6 +106,13 @@ export class ReservationService implements OnInit {
     this.reservations.next(newReservations);
   }
 
+  deleteReservation(id: string): void {
+    const newReservations = this.reservations
+      .getValue()
+      .filter((reservation) => reservation.id !== id);
+    this.reservations.next(newReservations);
+  }
+
   filterCarsByDate(start: Date, end: Date): void {
     const reservationsMatchingDate = this.reservations
       .getValue()

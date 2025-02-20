@@ -6,20 +6,16 @@
       <div class="flex flex-col gap-4">
         <h1 class="text-6xl font-medium">Car Rental</h1>
         <p class="indent-2 opacity-80 font-medium">
-          Select your rental dates. Ensure accuracy to avoid issues.
+          Szűrj dátum szerint, hogy megtudd, mely autók elérhetők!
         </p>
       </div>
 
       <div>
         <mat-form-field>
-          <mat-label>Enter a date range</mat-label>
+          <mat-label>Dátum</mat-label>
           <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
-            <input
-              matStartDate
-              formControlName="start"
-              placeholder="Start date"
-            />
-            <input matEndDate formControlName="end" placeholder="End date" />
+            <input matStartDate formControlName="start" placeholder="Kezdés" />
+            <input matEndDate formControlName="end" placeholder="Vége" />
           </mat-date-range-input>
           <mat-hint>MM/DD/YYYY - MM/DD/YYYY</mat-hint>
           <mat-datepicker-toggle
@@ -34,7 +30,9 @@
         </mat-error>
 
         <div class="text-right">
-          <button mat-flat-button class="mt-5" (click)="resetFilter()">Törlés</button>
+          <button mat-flat-button class="mt-5" (click)="resetFilter()">
+            Törlés
+          </button>
         </div>
       </div>
     </div>

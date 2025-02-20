@@ -8,24 +8,32 @@
 
   <!-- If logged in -->
   <ng-template #elseTemplate>
-    <h1 class="text-5xl m-10 text-left">
-      Welcome, {{ email!.split("@")[0].toUpperCase() }}!
+    <h1 class="text-5xl m-10 text-left w-5/6">
+      Üdv, {{ email!.split("@")[0].toUpperCase() }}!
     </h1>
 
-    <mat-tab-group>
-      <mat-tab label="Autók">
-        <div class="text-center mt-15">
-          <h2 class="text-left text-3xl mt-10">Összes elérhető autó!</h2>
-          <app-list [isAdmin]="true" />
+    <div class="w-5/6">
+      <mat-tab-group>
+        <mat-tab label="Autók">
+          <div class="text-center mt-15">
+            <h2 class="text-4xl mt-10">Összes elérhető autó!</h2>
+            <app-list [isAdmin]="true" />
 
-          <button mat-flat-button (click)="openDialog()" class="text-2xl mb-10">
-            Adjon hozzá egy új autót!
-          </button>
-        </div>
-      </mat-tab>
-      <mat-tab label="Foglalások">
-        <app-list [isAdmin]="true" [isReservations]="true" />
-      </mat-tab>
-    </mat-tab-group>
+            <button
+              mat-flat-button
+              (click)="openDialog()"
+              class="text-2xl mb-10"
+            >
+              Adjon hozzá egy új autót!
+            </button>
+          </div>
+        </mat-tab>
+        <mat-tab label="Foglalások">
+          <h2 class="text-4xl mt-10 text-center">Összes foglalás!</h2>
+
+          <app-list [isAdmin]="true" [isReservations]="true" />
+        </mat-tab>
+      </mat-tab-group>
+    </div>
   </ng-template>
 </div>

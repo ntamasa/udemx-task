@@ -39,7 +39,11 @@ export class ListComponent implements OnInit {
     return this.cars.find((car) => car.id === resId)!;
   }
 
-  getGridClasses(isAdmin: boolean = false): string {
+  getGridClasses(): string {
+    const length = this.isReservations
+      ? this.reservations.length
+      : this.cars.length;
+
     const classes = [
       'grid',
       'grid-cols-1',
@@ -48,17 +52,17 @@ export class ListComponent implements OnInit {
       'mx-5',
       'justify-items-center',
     ];
-    if (this.reservations.length > 3 || (!isAdmin && this.cars.length > 3)) {
+    if (length > 3) {
       classes.push('lg:grid-cols-3');
     } else {
-      classes.push(`lg:grid-cols-${this.reservations.length}`);
+      classes.push(`lg:grid-cols-${length}`);
     }
-    if (this.reservations.length > 2 || (!isAdmin && this.cars.length > 2)) {
+    if (length > 2) {
       classes.push('md:grid-cols-2');
       classes.push('sm:grid-cols-2');
     } else {
-      classes.push(`md:grid-cols-${this.reservations.length}`);
-      classes.push(`sm:grid-cols-${this.reservations.length}`);
+      classes.push(`md:grid-cols-${length}`);
+      classes.push(`sm:grid-cols-${length}`);
     }
     return classes.join(' ');
   }

@@ -63,6 +63,8 @@ export class CardComponent implements OnInit {
   }
 
   onDelete(): void {
-    this.reservationService.deleteCar(this.car.id);
+    if (this.reservation)
+      this.reservationService.deleteReservation(this.reservation.id);
+    else this.reservationService.deleteCar(this.car.id);
   }
 }
