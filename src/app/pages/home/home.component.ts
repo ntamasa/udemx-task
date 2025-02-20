@@ -11,7 +11,6 @@ import {
 import { ListComponent } from '../../components/list/list.component';
 import { ReservationService } from '../../services/reservationService';
 import { HeroComponent } from '../../components/hero/hero.component';
-import { ErrMessageComponent } from '../../components/err-message/err-message.component';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -24,7 +23,6 @@ import { CommonModule } from '@angular/common';
     ReactiveFormsModule,
     ListComponent,
     HeroComponent,
-    ErrMessageComponent,
   ],
   providers: [provideNativeDateAdapter()],
   changeDetection: ChangeDetectionStrategy.OnPush,

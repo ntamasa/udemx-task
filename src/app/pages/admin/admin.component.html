@@ -1,3 +1,17 @@
-<h1>Welcome ADMIN!</h1>
-<app-list [isAdmin]="true" />
-<a href="#" class="cursor-pointer" (click)="$event.preventDefault(); goToHome()">HOME</a>
+<div
+  class="flex flex-col items-center justify-center text-slate-900 min-h-full"
+>
+  <!-- If NOT logged in -->
+  <ng-container *ngIf="!isLoggedIn; else elseTemplate">
+    <app-admin-login (isLoggedIn)="checkLoginStatus($event)" />
+  </ng-container>
+
+  <!-- If logged in -->
+  <ng-template #elseTemplate>
+    <h1 class="text-5xl m-10 text-left">
+      Welcome, {{ email!.split("@")[0].toUpperCase() }}!
+    </h1>
+
+    <app-list [isAdmin]="true" />
+  </ng-template>
+</div>

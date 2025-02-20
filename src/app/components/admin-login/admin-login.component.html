@@ -1,0 +1,42 @@
+<form
+  class="flex flex-col align-stretch justify-between gap-5 p-24 rounded-xl bg-slate-100 shadow-md"
+  [formGroup]="loginForm"
+  (ngSubmit)="onLogin()"
+>
+  <h2 class="text-4xl text-slate-900 mb-8">
+    Jelentkezzen be adminisztrátorként!
+  </h2>
+
+  <mat-form-field>
+    <mat-label>Email cím</mat-label>
+    <input
+      matInput
+      placeholder="example@example.com"
+      formControlName="email"
+      required
+      type="email"
+    />
+    <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+      Az email cím megadása kötelező!
+    </mat-error>
+    <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
+      Hibás email formátum!
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Jelszó</mat-label>
+    <input
+      matInput
+      placeholder="********"
+      formControlName="password"
+      required
+      type="password"
+    />
+    <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+      A jelszó megadása kötelező!
+    </mat-error>
+  </mat-form-field>
+
+  <button mat-flat-button>Bejelentkezés</button>
+</form>

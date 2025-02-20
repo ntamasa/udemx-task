@@ -1,4 +1,4 @@
-<div class="flex flex-col items-center min-h-dvh">
+<div class="flex flex-col items-center">
   <app-hero>
     <div
       class="w-2/3 h-5/6 bg-slate-100 rounded-2xl opacity-95 p-10 flex justify-between items-center"
@@ -29,9 +29,9 @@
           <mat-date-range-picker #picker></mat-date-range-picker>
         </mat-form-field>
 
-        <app-err-message *ngIf="errMessage">
+        <mat-error *ngIf="errMessage">
           {{ errMessage }}
-        </app-err-message>
+        </mat-error>
       </div>
     </div>
   </app-hero>

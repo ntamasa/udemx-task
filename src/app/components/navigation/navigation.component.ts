@@ -17,7 +17,6 @@ export class NavigationComponent implements OnInit {
 
   changePage(): void {
     const currentPath = this.getCurrentPath();
-    console.log(currentPath);
     this.router.navigate([`/${!currentPath ? 'admin' : ''}`]);
   }
 

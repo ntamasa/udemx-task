@@ -8,7 +8,7 @@
         href="#"
         class="btn btn-primary cursor-pointer"
         (click)="$event.preventDefault(); changePage()"
-        >Go to {{ !getCurrentPath() ? "Admin" : "Home" }}</a
+        >{{ !getCurrentPath() ? "Admin" : "Kezdőlap" }}</a
       >
     </button>
   </mat-toolbar>
