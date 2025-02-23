@@ -57,10 +57,6 @@ export class AdminLoginComponent implements OnInit {
     this.isLoggedIn.emit(false);
   }
 
-  resetForm(): void {
-    this.loginForm.reset();
-  }
-
   onLoginSuccess(): void {
     this.isLoggedIn.emit(true);
     this._snackBar.open('Sikeres bejelentkezés!', 'Bezárás', {

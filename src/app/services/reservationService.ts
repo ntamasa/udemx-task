@@ -98,7 +98,6 @@ export class ReservationService implements OnInit {
       )
     );
 
-    // TODO
     if (!this.checkReservationAvailability(carId, reservationData))
       return false;
 
@@ -259,14 +258,10 @@ export class ReservationService implements OnInit {
       const reservationEndDate = reservation.end_date;
 
       return (
-        !(
-          reservationData.end.getTime() >= reservationStartDate.getTime() &&
-          reservationData.end.getTime() <= reservationEndDate.getTime()
-        ) &&
-        !(
-          reservationData.start.getTime() >= reservationStartDate.getTime() &&
-          reservationData.start.getTime() <= reservationEndDate.getTime()
-        )
+        (reservationData.start.getTime() < reservationStartDate.getTime() &&
+          reservationData.end.getTime() < reservationStartDate.getTime()) ||
+        (reservationData.start.getTime() > reservationEndDate.getTime() &&
+          reservationData.end.getTime() > reservationEndDate.getTime())
       );
     });
   }
