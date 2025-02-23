@@ -1,59 +1,68 @@
-# UdemxTask
+# UdemxTask 🚀
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.2.
+Welcome to the UdemxTask project! This project was created as part of an intern job application for UDEMX Kft. It is built using Angular and aims to provide a robust foundation for web applications.
 
-## Development server
+## Getting Started 🛠️
 
-To start a local development server, run:
+### Prerequisites 📋
 
-```bash
-ng serve
-```
+Ensure you have the following installed on your machine:
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- [Node.js](https://nodejs.org/) (version 14.x or later)
+- [Angular CLI](https://angular.io/cli) (version 19.0.2 or later)
 
-## Code scaffolding
+### Installation 💾
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Clone the repository and install the dependencies:
 
 ```bash
-ng generate --help
+git clone https://github.com/ntamasa/udemx-task.git
+cd udemx-task
+npm install
 ```
 
-## Building
+### Development Server 🖥️
 
-To build the project run:
+To start the development server, run:
 
 ```bash
-ng build
+npm start
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Navigate to `http://localhost:4200/` in your browser. The application will automatically reload if you change any of the source files.
 
-## Running unit tests
+### Building the Project 🏗️
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+To build the project for production, use:
 
 ```bash
-ng test
+npm run build
 ```
 
-## Running end-to-end tests
+The build artifacts will be stored in the `dist/` directory. The production build is optimized for performance and speed.
 
-For end-to-end (e2e) testing, run:
+## Testing 🧪
+
+### Running Unit Tests 🧩
+
+To execute unit tests with Karma, run:
 
 ```bash
-ng e2e
+npm test
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+**Note:** Unit tests are not fully implemented yet. The current test suite is incomplete and may not cover all functionalities.
 
-## Additional Resources
+### Running End-to-End Tests 🔍
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+For end-to-end testing, use:
+
+```bash
+npm run e2e
+```
+
+**Note:** End-to-end tests are not fully implemented yet. The current implementation is incomplete and may not cover all user scenarios.
+
+## License 📄
+
+This project is licensed under the MIT License.
