@@ -1,6 +1,7 @@
 import { Injectable, OnInit } from '@angular/core';
 import { User } from '../model/user';
 import { UserRole } from '../model/userRole';
+import { ColdObservable } from 'rxjs/internal/testing/ColdObservable';
 
 const ADMIN_USER: User = {
   id: 1,
@@ -27,6 +28,7 @@ export class AdminService implements OnInit {
       localStorage.setItem('user', email);
       return true;
     }
+    console.log('Invalid email or password!');
     return false;
   }
 

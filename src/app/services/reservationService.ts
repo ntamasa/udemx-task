@@ -90,9 +90,17 @@ export class ReservationService implements OnInit {
       name: string;
       phone: string;
     }
-  ): void {
-    const days =
-      reservationData.end.getDate() - reservationData.start.getDate();
+  ): boolean {
+    const day = 24 * 60 * 60 * 1000;
+    const days = Math.round(
+      Math.abs(
+        (reservationData.start.getTime() - reservationData.end.getTime()) / day
+      )
+    );
+
+    // TODO
+    if (!this.checkReservationAvailability(carId, reservationData))
+      return false;
 
     const reservation: Reservation = {
       id: faker.string.uuid(),
@@ -104,6 +112,7 @@ export class ReservationService implements OnInit {
     };
     const newReservations = [...this.reservations.getValue(), reservation];
     this.reservations.next(newReservations);
+    return true;
   }
 
   deleteReservation(id: string): void {
@@ -225,5 +234,40 @@ export class ReservationService implements OnInit {
           .getValue()
           .some((reservation) => reservation.car_id === car.id)
       );
+  }
+
+  // returns true if the car is available for reservation
+  checkReservationAvailability(
+    carId: string,
+    reservationData: {
+      address: string;
+      email: string;
+      end: Date;
+      start: Date;
+      name: string;
+      phone: string;
+    }
+  ): boolean {
+    const reservationsMatchingCar = this.reservations
+      .getValue()
+      .filter((reservation) => reservation.car_id === carId);
+
+    if (reservationsMatchingCar.length === 0) return true;
+
+    return reservationsMatchingCar.some((reservation) => {
+      const reservationStartDate = reservation.start_date;
+      const reservationEndDate = reservation.end_date;
+
+      return (
+        !(
+          reservationData.end.getTime() >= reservationStartDate.getTime() &&
+          reservationData.end.getTime() <= reservationEndDate.getTime()
+        ) &&
+        !(
+          reservationData.start.getTime() >= reservationStartDate.getTime() &&
+          reservationData.start.getTime() <= reservationEndDate.getTime()
+        )
+      );
+    });
   }
 }

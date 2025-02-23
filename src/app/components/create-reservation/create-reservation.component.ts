@@ -12,6 +12,7 @@ import {
   MAT_DIALOG_DATA,
   MatDialogContent,
   MatDialogModule,
+  MatDialogRef,
   MatDialogTitle,
 } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
@@ -42,6 +43,7 @@ import { ReservationService } from '../../services/reservationService';
 })
 export class CreateReservationComponent implements OnInit {
   data = inject(MAT_DIALOG_DATA);
+  dialogRef = inject(MatDialogRef<CreateReservationComponent>);
 
   reservationForm = new FormGroup({
     name: new FormControl('', [
@@ -82,7 +84,11 @@ export class CreateReservationComponent implements OnInit {
       name: string;
       phone: string;
     };
-    this.reservationService.createReservation(this.data.id, reservationData);
+    const resStatus = this.reservationService.createReservation(
+      this.data.id,
+      reservationData
+    );
+    this.dialogRef.close(resStatus);
   }
 
   // Custom validator to check if the date is not before today

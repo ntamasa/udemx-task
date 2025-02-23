@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { AdminService } from '../../services/adminService';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-admin-login',
@@ -26,6 +27,7 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './admin-login.component.scss',
 })
 export class AdminLoginComponent implements OnInit {
+  private _snackBar = inject(MatSnackBar);
   @Output() isLoggedIn = new EventEmitter<boolean>();
 
   loginForm = new FormGroup({
@@ -43,12 +45,32 @@ export class AdminLoginComponent implements OnInit {
       email: string;
       password: string;
     };
-    this.adminService.login(loginData.email, loginData.password);
-    this.isLoggedIn.emit(true);
+    const loginStatus = this.adminService.login(
+      loginData.email,
+      loginData.password
+    );
+    loginStatus ? this.onLoginSuccess() : this.onLoginFailure();
   }
 
   onLogout(): void {
     this.adminService.logout();
     this.isLoggedIn.emit(false);
+  }
+
+  resetForm(): void {
+    this.loginForm.reset();
+  }
+
+  onLoginSuccess(): void {
+    this.isLoggedIn.emit(true);
+    this._snackBar.open('Sikeres bejelentkezés!', 'Bezárás', {
+      duration: 2000,
+    });
+  }
+
+  onLoginFailure(): void {
+    this._snackBar.open('Hibás email vagy jelszó!', 'Bezárás', {
+      duration: 2000,
+    });
   }
 }
